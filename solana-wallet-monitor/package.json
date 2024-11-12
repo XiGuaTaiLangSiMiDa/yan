@@ -1,0 +1,26 @@
+{
+  "name": "solana-wallet-monitor",
+  "version": "1.0.0",
+  "description": "Monitor Solana smart money wallet transactions",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "solana",
+    "blockchain",
+    "monitoring",
+    "cryptocurrency",
+    "trading"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@solana/web3.js": "^1.87.6",
+    "@solana/spl-token": "^0.3.9",
+    "@project-serum/anchor": "^0.26.0",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2"
+  }
+}
