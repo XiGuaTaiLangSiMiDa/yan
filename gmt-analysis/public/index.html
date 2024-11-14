@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT/USDT 技术分析</title>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1e222d;
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1600px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .chart-section {
+            width: 100%;
+        }
+        #chart-container {
+            width: 100%;
+            height: 600px;
+            margin-bottom: 20px;
+        }
+        .indicators-section {
+            width: 100%;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .indicator-panel {
+            background-color: #2a2e39;
+            border-radius: 5px;
+            padding: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        h3 {
+            margin-top: 0;
+            color: #9ba6b2;
+            font-size: 16px;
+            border-bottom: 1px solid #363c4e;
+            padding-bottom: 8px;
+        }
+        .support, .resistance {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .support.strong {
+            background-color: rgba(38, 166, 154, 0.2);
+            border-left: 4px solid #26a69a;
+        }
+        .support.weak {
+            background-color: rgba(38, 166, 154, 0.1);
+            border-left: 4px solid rgba(38, 166, 154, 0.5);
+        }
+        .resistance.strong {
+            background-color: rgba(239, 83, 80, 0.2);
+            border-left: 4px solid #ef5350;
+        }
+        .resistance.weak {
+            background-color: rgba(239, 83, 80, 0.1);
+            border-left: 4px solid rgba(239, 83, 80, 0.5);
+        }
+        .signal {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 3px;
+        }
+        .signal.buy.strong {
+            background-color: rgba(38, 166, 154, 0.3);
+            border: 1px solid #26a69a;
+        }
+        .signal.buy.moderate {
+            background-color: rgba(38, 166, 154, 0.15);
+            border: 1px solid rgba(38, 166, 154, 0.5);
+        }
+        .signal.sell.strong {
+            background-color: rgba(239, 83, 80, 0.3);
+            border: 1px solid #ef5350;
+        }
+        .signal.sell.moderate {
+            background-color: rgba(239, 83, 80, 0.15);
+            border: 1px solid rgba(239, 83, 80, 0.5);
+        }
+        .price-tag {
+            font-family: monospace;
+            font-size: 13px;
+            background-color: #363c4e;
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-left: 5px;
+        }
+        .volume-info {
+            font-size: 12px;
+            color: #9ba6b2;
+            margin-top: 3px;
+        }
+        @media (max-width: 1200px) {
+            .indicator-panel {
+                min-width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 768px) {
+            .indicator-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chart-section">
+            <div id="chart-container"></div>
+        </div>
+        <div class="indicators-section">
+            <div id="support-resistance" class="indicator-panel"></div>
+            <div id="indicators" class="indicator-panel"></div>
+            <div id="signals" class="indicator-panel"></div>
+        </div>
+    </div>
+    <script src="/chart.js"></script>
+</body>
+</html>

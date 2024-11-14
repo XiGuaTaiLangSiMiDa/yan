@@ -1,0 +1,144 @@
+/* 图表容器基础样式 */
+.chart-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 图表包装器 */
+.chart-wrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.chart-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* TradingView图表容器 */
+#tradingview_chart {
+    height: 500px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 成交量柱状图 */
+.volume-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 8px 0;
+}
+
+.volume-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* 支撑位成交量 */
+.support .volume-bar-fill {
+    background: linear-gradient(to right, rgba(46, 204, 113, 0.2), rgba(46, 204, 113, 0.8));
+}
+
+/* 阻力位成交量 */
+.resistance .volume-bar-fill {
+    background: linear-gradient(to right, rgba(231, 76, 60, 0.2), rgba(231, 76, 60, 0.8));
+}
+
+/* 历史成交量 */
+.historical .volume-bar-fill {
+    background: linear-gradient(to right, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.8));
+}
+
+/* 图表标题 */
+.chart-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 图表图例 */
+.chart-legend {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+/* 图表工具提示 */
+.chart-tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+/* 图表加载状态 */
+.chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* 图表错误状态 */
+.chart-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background: #fee;
+    color: #e74c3c;
+    border-radius: 8px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 15px;
+    }
+
+    #tradingview_chart {
+        height: 400px;
+    }
+
+    .chart-legend {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    #tradingview_chart {
+        height: 300px;
+    }
+}

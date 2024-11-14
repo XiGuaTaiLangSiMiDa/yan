@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="page-enter">
     <div class="container">
-        <div class="symbol-selector" id="symbolSelector">
+        <div class="symbol-selector section-enter" id="symbolSelector">
             <button class="symbol-btn active" data-symbol="GMTUSDT">GMT/USDT</button>
             <button class="symbol-btn" data-symbol="SOLUSDT">SOL/USDT</button>
             <button class="symbol-btn" data-symbol="DOGEUSDT">DOGE/USDT</button>
@@ -23,7 +23,45 @@
             </div>
         </div>
 
-        <div class="period-pattern-analysis">
+        <div class="time-pattern-analysis section-enter">
+            <h3>时间模式分析</h3>
+            <div id="timePatternSummary" class="pattern-summary"></div>
+            
+            <div class="chart-container">
+                <canvas id="hourlyPatternChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="volumePatternChart"></canvas>
+            </div>
+
+            <div class="pattern-table">
+                <h4>每小时详细数据</h4>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>上涨概率</th>
+                                <th>下跌概率</th>
+                                <th>横盘概率</th>
+                                <th>平均涨幅</th>
+                                <th>最大涨幅</th>
+                                <th>平均跌幅</th>
+                                <th>最大跌幅</th>
+                                <th>中位数涨跌</th>
+                                <th>平均成交量</th>
+                                <th>交易次数</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hourlyPatternTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="lastTimeUpdate" class="last-update"></div>
+        </div>
+
+        <div class="period-pattern-analysis section-enter">
             <h3>周期模式分析（近一年数据）</h3>
             <div id="periodPatternMetadata" class="metadata-container"></div>
             
@@ -44,22 +82,22 @@
             <div id="lastPeriodUpdate" class="last-update"></div>
         </div>
 
-        <div class="analysis-summary">
+        <div class="analysis-summary section-enter">
             <h3>市场分析总结</h3>
             <div id="analysisText"></div>
             <div class="trend-analysis" id="trendAnalysis"></div>
         </div>
 
-        <div class="trading-ranges">
+        <div class="trading-ranges section-enter">
             <h3>操作区间建议</h3>
             <div id="tradingRanges"></div>
         </div>
 
-        <div class="chart-container">
+        <div class="chart-container section-enter">
             <div id="tradingview_chart"></div>
         </div>
 
-        <div class="price-levels">
+        <div class="price-levels section-enter">
             <div class="level-box">
                 <h3>订单簿支撑位</h3>
                 <div id="supportLevels"></div>
@@ -73,7 +111,7 @@
                 <div id="historicalLevels"></div>
             </div>
         </div>
-        <div id="lastUpdate"></div>
+        <div id="lastUpdate" class="last-update"></div>
     </div>
 
     <!-- 加载TradingView -->

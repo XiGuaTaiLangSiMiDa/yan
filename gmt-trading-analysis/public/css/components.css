@@ -1,0 +1,188 @@
+/* 按钮基础样式 */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* 符号选择器按钮 */
+.symbol-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    background: #f0f0f0;
+    color: #333;
+    font-weight: 500;
+}
+
+.symbol-btn.active {
+    background: #1e88e5;
+    color: white;
+    box-shadow: 0 2px 4px rgba(30,136,229,0.3);
+}
+
+.symbol-btn:not(.active):hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+/* 自定义交易对输入 */
+.custom-symbol-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    width: 100%;
+}
+
+.custom-symbol-input input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.custom-symbol-input input:focus {
+    outline: none;
+    border-color: #1e88e5;
+    box-shadow: 0 0 0 3px rgba(30,136,229,0.1);
+}
+
+.custom-symbol-input button {
+    padding: 10px 20px;
+    background: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.custom-symbol-input button:hover {
+    background: #1976d2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(30,136,229,0.3);
+}
+
+/* 数据标签 */
+.data-label {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.data-label.positive {
+    background: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+}
+
+.data-label.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+.data-label.neutral {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+/* 卡片组件 */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    margin: -20px -20px 20px;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    border-radius: 12px 12px 0 0;
+}
+
+.card-footer {
+    margin: 20px -20px -20px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 12px 12px;
+}
+
+/* 徽章 */
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.badge-primary {
+    background: rgba(30,136,229,0.1);
+    color: #1e88e5;
+}
+
+.badge-success {
+    background: rgba(46,204,113,0.1);
+    color: #2ecc71;
+}
+
+.badge-danger {
+    background: rgba(231,76,60,0.1);
+    color: #e74c3c;
+}
+
+/* 进度条 */
+.progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .custom-symbol-input {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .custom-symbol-input input {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .symbol-btn {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+}
