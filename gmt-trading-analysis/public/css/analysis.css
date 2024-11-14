@@ -1,4 +1,139 @@
-/* 保持其他样式不变，只更新summary-item相关样式 */
+/* 市场分析总结样式 - 使用更具体的选择器避免影响其他部分 */
+.analysis-summary {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.analysis-summary h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.3em;
+    font-weight: 600;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #eee;
+    position: relative;
+}
+
+.analysis-summary h3::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: #1e88e5;
+}
+
+.analysis-summary .analysis-text {
+    line-height: 1.8;
+    color: #2c3e50;
+    font-size: 1.05em;
+}
+
+.analysis-summary .analysis-text p {
+    margin: 15px 0;
+    padding: 12px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    border-left: 4px solid #1e88e5;
+    transition: all 0.3s ease;
+}
+
+.analysis-summary .analysis-text p:hover {
+    background: rgba(255,255,255,0.9);
+    transform: translateX(5px);
+}
+
+.analysis-summary .key-level {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-weight: 600;
+    color: #1e88e5;
+    padding: 2px 6px;
+    background: rgba(30,136,229,0.1);
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+.analysis-summary .trend-analysis {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    border-left: 4px solid #2ecc71;
+    line-height: 1.6;
+}
+
+.analysis-summary .trend-analysis strong {
+    display: block;
+    color: #2c3e50;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+
+/* 支撑位和阻力位列表样式 */
+.analysis-summary .price-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 5px 0;
+}
+
+.analysis-summary .price-item {
+    font-family: 'Monaco', 'Consolas', monospace;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.analysis-summary .support-price {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+.analysis-summary .resistance-price {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+}
+
+/* RSI状态样式 */
+.analysis-summary .rsi-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-size: 0.9em;
+}
+
+.analysis-summary .rsi-neutral {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2980b9;
+}
+
+.analysis-summary .rsi-overbought {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+}
+
+.analysis-summary .rsi-oversold {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+/* 时间模式分析样式 - 保持原有样式 */
+.time-pattern-analysis {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
 .pattern-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -7,119 +142,50 @@
 }
 
 .summary-item {
-    background: linear-gradient(145deg, #ffffff, #f5f7fa);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.summary-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(to right, #1e88e5, #64b5f6);
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #1e88e5;
+    transition: transform 0.2s ease;
 }
 
 .summary-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
 
 .summary-item h4 {
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
     color: #1e88e5;
-    font-size: 1.2em;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.summary-item h4::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgba(30, 136, 229, 0.1);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 16px;
-}
-
-.summary-item:first-child h4::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e88e5'%3E%3Cpath d='M7 14l5-5 5 5z'/%3E%3C/svg%3E");
-}
-
-.summary-item:last-child h4::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e88e5'%3E%3Cpath d='M3 3v18h18V3H3zm16 16H5V5h14v14zM11 7h2v8h-2zm-4 3h2v5H7zm8-3h2v8h-2z'/%3E%3C/svg%3E");
+    font-size: 1.1em;
 }
 
 .summary-item p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 0.95em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 12px 0;
-    padding: 8px 0;
-    border-bottom: 1px dashed rgba(0,0,0,0.1);
-}
-
-.summary-item p:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.summary-item p span:first-child {
-    color: #666;
-    font-size: 0.95em;
 }
 
 .summary-item p span:last-child {
-    font-weight: 600;
+    font-weight: 500;
     color: #2c3e50;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(30, 136, 229, 0.1);
-    font-size: 0.95em;
 }
 
-.summary-item p span.data-label {
-    min-width: 80px;
-    text-align: center;
-}
-
-.summary-item p span.data-label.positive {
-    background: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
-}
-
-.summary-item p span.data-label.negative {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-}
-
-.summary-item p span.data-label.neutral {
-    background: rgba(52, 152, 219, 0.1);
-    color: #3498db;
-}
-
+/* 响应式调整 */
 @media (max-width: 768px) {
-    .pattern-summary {
-        grid-template-columns: 1fr;
-        gap: 15px;
+    .analysis-summary {
+        padding: 15px;
     }
 
-    .summary-item {
-        padding: 20px;
+    .analysis-summary .analysis-text p {
+        padding: 10px;
+        margin: 10px 0;
     }
 
-    .summary-item h4 {
-        font-size: 1.1em;
+    .analysis-summary .trend-analysis {
+        padding: 15px;
+        margin-top: 20px;
     }
 }

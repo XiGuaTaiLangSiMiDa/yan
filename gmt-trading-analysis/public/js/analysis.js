@@ -11,6 +11,71 @@ class MarketAnalysis {
         return parseFloat(price).toFixed(6);
     }
 
+    getRsiStatus(rsi) {
+        if (rsi > 70) {
+            return '<span class="rsi-status rsi-overbought">超买区间</span>';
+        } else if (rsi < 30) {
+            return '<span class="rsi-status rsi-oversold">超卖区间</span>';
+        } else {
+            return '<span class="rsi-status rsi-neutral">中性区间</span>';
+        }
+    }
+
+    generateAnalysisSummary(data) {
+        const rsi = data.rsi;
+        const currentPrice = data.currentPrice;
+        const supports = data.orderBookLevels.filter(l => l.type === 'support').slice(0, 3);
+        const resistances = data.orderBookLevels.filter(l => l.type === 'resistance').slice(0, 3);
+        
+        let summary = `<div class="analysis-text">`;
+        summary += `<p>当前价格: <span class="key-level">${this.formatPrice(currentPrice)}</span></p>`;
+        summary += `<p>RSI(14): <span class="key-level">${rsi.toFixed(2)}</span>${this.getRsiStatus(rsi)}</p>`;
+        
+        // 支撑位列表
+        summary += `<p>主要支撑位：<div class="price-list">`;
+        summary += supports.map(s => 
+            `<span class="price-item support-price">${this.formatPrice(s.price)}</span>`
+        ).join('');
+        summary += `</div></p>`;
+
+        // 阻力位列表
+        summary += `<p>主要阻力位：<div class="price-list">`;
+        summary += resistances.map(r => 
+            `<span class="price-item resistance-price">${this.formatPrice(r.price)}</span>`
+        ).join('');
+        summary += `</div></p>`;
+        summary += `</div>`;
+
+        // 趋势分析
+        let trendAnalysis = `<strong>趋势分析</strong>`;
+        const nearestSupport = supports[0];
+        const nearestResistance = resistances[0];
+        
+        if (nearestSupport && nearestResistance) {
+            const distanceToSupport = currentPrice - nearestSupport.price;
+            const distanceToResistance = nearestResistance.price - currentPrice;
+            
+            if (distanceToSupport < distanceToResistance) {
+                trendAnalysis += `<p>当前价格距离支撑位 <span class="key-level">${this.formatPrice(nearestSupport.price)}</span> 较近，可能获得支撑。`;
+                if (rsi < 40) {
+                    trendAnalysis += ` RSI处于低位，可以考虑逢低买入。</p>`;
+                } else {
+                    trendAnalysis += `</p>`;
+                }
+            } else {
+                trendAnalysis += `<p>当前价格接近阻力位 <span class="key-level">${this.formatPrice(nearestResistance.price)}</span>，需要注意突破情况。`;
+                if (rsi > 60) {
+                    trendAnalysis += ` RSI处于高位，可以考虑分批减仓。</p>`;
+                } else {
+                    trendAnalysis += `</p>`;
+                }
+            }
+        }
+
+        document.getElementById('analysisText').innerHTML = summary;
+        document.getElementById('trendAnalysis').innerHTML = trendAnalysis;
+    }
+
     updatePriceLevels(data) {
         // 更新支撑位
         const supportLevels = data.orderBookLevels
@@ -78,54 +143,6 @@ class MarketAnalysis {
 
         document.getElementById('lastUpdate').textContent = 
             `最后更新时间: ${new Date().toLocaleString('zh-CN')}`;
-    }
-
-    generateAnalysisSummary(data) {
-        const rsi = data.rsi;
-        const currentPrice = data.currentPrice;
-        const supports = data.orderBookLevels.filter(l => l.type === 'support').slice(0, 3);
-        const resistances = data.orderBookLevels.filter(l => l.type === 'resistance').slice(0, 3);
-        
-        let summary = `<div class="analysis-text">`;
-        summary += `<p>当前价格: <span class="key-level">${this.formatPrice(currentPrice)}</span></p>`;
-        summary += `<p>RSI(14): <span class="key-level">${rsi.toFixed(2)}</span>`;
-        
-        if (rsi > 70) {
-            summary += ` - 超买区间，可能面临回调风险</p>`;
-        } else if (rsi < 30) {
-            summary += ` - 超卖区间，可能出现反弹机会</p>`;
-        } else {
-            summary += ` - 中性区间</p>`;
-        }
-
-        summary += `<p>主要支撑位：${supports.map(s => this.formatPrice(s.price)).join(', ')}</p>`;
-        summary += `<p>主要阻力位：${resistances.map(r => this.formatPrice(r.price)).join(', ')}</p>`;
-        summary += `</div>`;
-
-        // 趋势分析
-        let trendAnalysis = `<p><strong>趋势分析：</strong></p>`;
-        const nearestSupport = supports[0];
-        const nearestResistance = resistances[0];
-        
-        if (nearestSupport && nearestResistance) {
-            const distanceToSupport = currentPrice - nearestSupport.price;
-            const distanceToResistance = nearestResistance.price - currentPrice;
-            
-            if (distanceToSupport < distanceToResistance) {
-                trendAnalysis += `当前价格距离支撑位 ${this.formatPrice(nearestSupport.price)} 较近，可能获得支撑。`;
-                if (rsi < 40) {
-                    trendAnalysis += ` RSI处于低位，可以考虑逢低买入。`;
-                }
-            } else {
-                trendAnalysis += `当前价格接近阻力位 ${this.formatPrice(nearestResistance.price)}，需要注意突破情况。`;
-                if (rsi > 60) {
-                    trendAnalysis += ` RSI处于高位，可以考虑分批减仓。`;
-                }
-            }
-        }
-
-        document.getElementById('analysisText').innerHTML = summary;
-        document.getElementById('trendAnalysis').innerHTML = trendAnalysis;
     }
 
     async fetchAndUpdateData(symbol) {
