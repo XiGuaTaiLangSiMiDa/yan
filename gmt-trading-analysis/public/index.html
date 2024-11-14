@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>加密货币订单簿分析</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -20,6 +21,33 @@
                 <input type="text" id="customSymbol" placeholder="输入交易对 (例如: BTCUSDT)" />
                 <button onclick="symbolManager.addCustomSymbol()">添加</button>
             </div>
+        </div>
+
+        <div class="time-pattern-analysis">
+            <h3>时间模式分析（近半年数据）</h3>
+            <div id="timePatternSummary" class="pattern-summary"></div>
+            
+            <div class="chart-container">
+                <canvas id="hourlyPatternChart"></canvas>
+            </div>
+
+            <div class="pattern-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>上涨概率</th>
+                            <th>平均涨幅</th>
+                            <th>最大涨幅</th>
+                            <th>平均跌幅</th>
+                            <th>最大跌幅</th>
+                            <th>成交量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patternTableBody"></tbody>
+                </table>
+            </div>
+            <div id="lastPatternUpdate" class="last-update"></div>
         </div>
 
         <div class="analysis-summary">
@@ -60,16 +88,19 @@
     <!-- 加载我们的模块 -->
     <script src="/js/tradingView.js"></script>
     <script src="/js/analysis.js"></script>
+    <script src="/js/timePatterns.js"></script>
     
     <!-- 初始化应用 -->
     <script>
         // 创建实例
         const tradingViewManager = new TradingViewManager();
         const marketAnalysis = new MarketAnalysis();
+        const timePatternAnalysis = new TimePatternAnalysis();
         
         // 创建符号管理器并设置回调
         const symbolManager = new SymbolManager(tradingViewManager, (symbol) => {
             marketAnalysis.startAutoUpdate(symbol);
+            timePatternAnalysis.startAutoUpdate(symbol);
         });
 
         // 初始化
@@ -77,11 +108,13 @@
             const initialSymbol = tradingViewManager.getCurrentSymbol();
             tradingViewManager.createWidget(initialSymbol);
             marketAnalysis.startAutoUpdate(initialSymbol);
+            timePatternAnalysis.startAutoUpdate(initialSymbol);
         });
 
         // 清理
         window.addEventListener('beforeunload', () => {
             marketAnalysis.stopAutoUpdate();
+            timePatternAnalysis.stopAutoUpdate();
         });
     </script>
 </body>
