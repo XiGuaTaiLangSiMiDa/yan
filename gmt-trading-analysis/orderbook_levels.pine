@@ -1,0 +1,41 @@
+//@version=5
+indicator("DOGEUSDT Order Book Analysis", overlay=true)
+
+// 支撑位和阻力位的颜色设置
+var color supportColor = color.new(color.green, 70)
+var color resistanceColor = color.new(color.red, 70)
+var color histSupportColor = color.new(color.blue, 80)
+var color histResistanceColor = color.new(color.purple, 80)
+
+// 绘制订单簿支撑位和阻力位
+plotHLine(0.39, "支撑位 8311892张", color=supportColor, linestyle=hline.style_dashed, linewidth=3)
+plotHLine(0.391, "支撑位 7563632张", color=supportColor, linestyle=hline.style_dashed, linewidth=2)
+plotHLine(0.389, "支撑位 6921210张", color=supportColor, linestyle=hline.style_dashed, linewidth=1)
+plotHLine(0.392, "支撑位 6890431张", color=supportColor, linestyle=hline.style_dashed, linewidth=1)
+plotHLine(0.393, "支撑位 4236509张", color=supportColor, linestyle=hline.style_dashed, linewidth=1)
+plotHLine(0.395, "阻力位 11658302张", color=resistanceColor, linestyle=hline.style_dashed, linewidth=3)
+plotHLine(0.394, "阻力位 8163257张", color=resistanceColor, linestyle=hline.style_dashed, linewidth=2)
+plotHLine(0.396, "阻力位 6544900张", color=resistanceColor, linestyle=hline.style_dashed, linewidth=1)
+plotHLine(0.397, "阻力位 4441234张", color=resistanceColor, linestyle=hline.style_dashed, linewidth=1)
+plotHLine(0.398, "阻力位 430377张", color=resistanceColor, linestyle=hline.style_dashed, linewidth=1)
+
+// 绘制历史价格水平
+plotHLine(0.14, "历史支撑 12393034万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+plotHLine(0.17, "历史支撑 9239124万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+plotHLine(0.16, "历史支撑 8319662万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+plotHLine(0.15, "历史支撑 7499800万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+plotHLine(0.2, "历史支撑 6353269万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+plotHLine(0.19, "历史支撑 5247294万", color=histSupportColor, linestyle=hline.style_solid, linewidth=3)
+
+// 添加标签
+var label[] labels = array.new_label()
+
+// 清除旧标签
+label.delete(labels)
+
+// 在图表右侧添加标签
+if barstate.islast
+    array.push(labels, label.new(bar_index, 0.39, "支撑 8311892张", color=supportColor, style=label.style_label_right, textcolor=color.white))
+    array.push(labels, label.new(bar_index, 0.391, "支撑 7563632张", color=supportColor, style=label.style_label_right, textcolor=color.white))
+    array.push(labels, label.new(bar_index, 0.395, "阻力 11658302张", color=resistanceColor, style=label.style_label_right, textcolor=color.white))
+    array.push(labels, label.new(bar_index, 0.394, "阻力 8163257张", color=resistanceColor, style=label.style_label_right, textcolor=color.white))

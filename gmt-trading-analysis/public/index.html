@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密货币订单簿分析</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="symbol-selector" id="symbolSelector">
+            <button class="symbol-btn active" data-symbol="GMTUSDT">GMT/USDT</button>
+            <button class="symbol-btn" data-symbol="SOLUSDT">SOL/USDT</button>
+            <button class="symbol-btn" data-symbol="DOGEUSDT">DOGE/USDT</button>
+            <button class="symbol-btn" data-symbol="BTCUSDT">BTC/USDT</button>
+            <button class="symbol-btn" data-symbol="ETHUSDT">ETH/USDT</button>
+            <button class="symbol-btn" data-symbol="PNUTUSDT">PNUT/USDT</button>
+            <button class="symbol-btn" data-symbol="PEPEUSDT">PEPE/USDT</button>
+            <div class="custom-symbol-input">
+                <input type="text" id="customSymbol" placeholder="输入交易对 (例如: BTCUSDT)" />
+                <button onclick="symbolManager.addCustomSymbol()">添加</button>
+            </div>
+        </div>
+
+        <div class="analysis-summary">
+            <h3>市场分析总结</h3>
+            <div id="analysisText"></div>
+            <div class="trend-analysis" id="trendAnalysis"></div>
+        </div>
+
+        <div class="trading-ranges">
+            <h3>操作区间建议</h3>
+            <div id="tradingRanges"></div>
+        </div>
+
+        <div class="chart-container">
+            <div id="tradingview_chart"></div>
+        </div>
+
+        <div class="price-levels">
+            <div class="level-box">
+                <h3>订单簿支撑位</h3>
+                <div id="supportLevels"></div>
+            </div>
+            <div class="level-box">
+                <h3>订单簿阻力位</h3>
+                <div id="resistanceLevels"></div>
+            </div>
+            <div class="level-box">
+                <h3>历史价格水平</h3>
+                <div id="historicalLevels"></div>
+            </div>
+        </div>
+        <div id="lastUpdate"></div>
+    </div>
+
+    <!-- 加载TradingView -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <!-- 加载我们的模块 -->
+    <script src="/js/tradingView.js"></script>
+    <script src="/js/analysis.js"></script>
+    
+    <!-- 初始化应用 -->
+    <script>
+        // 创建实例
+        const tradingViewManager = new TradingViewManager();
+        const marketAnalysis = new MarketAnalysis();
+        
+        // 创建符号管理器并设置回调
+        const symbolManager = new SymbolManager(tradingViewManager, (symbol) => {
+            marketAnalysis.startAutoUpdate(symbol);
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialSymbol = tradingViewManager.getCurrentSymbol();
+            tradingViewManager.createWidget(initialSymbol);
+            marketAnalysis.startAutoUpdate(initialSymbol);
+        });
+
+        // 清理
+        window.addEventListener('beforeunload', () => {
+            marketAnalysis.stopAutoUpdate();
+        });
+    </script>
+</body>
+</html>
