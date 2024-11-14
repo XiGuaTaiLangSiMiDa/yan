@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>加密货币订单簿分析</title>
+    <title>加密货币交易分析</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -23,31 +23,25 @@
             </div>
         </div>
 
-        <div class="time-pattern-analysis">
-            <h3>时间模式分析（近半年数据）</h3>
-            <div id="timePatternSummary" class="pattern-summary"></div>
+        <div class="period-pattern-analysis">
+            <h3>周期模式分析（近一年数据）</h3>
+            <div id="periodPatternMetadata" class="metadata-container"></div>
             
-            <div class="chart-container">
-                <canvas id="hourlyPatternChart"></canvas>
+            <div class="period-charts">
+                <div class="chart-wrapper">
+                    <canvas id="weekdayPatternChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="monthDayPatternChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="yearWeekPatternChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="yearMonthPatternChart"></canvas>
+                </div>
             </div>
-
-            <div class="pattern-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>时间</th>
-                            <th>上涨概率</th>
-                            <th>平均涨幅</th>
-                            <th>最大涨幅</th>
-                            <th>平均跌幅</th>
-                            <th>最大跌幅</th>
-                            <th>成交量</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patternTableBody"></tbody>
-                </table>
-            </div>
-            <div id="lastPatternUpdate" class="last-update"></div>
+            <div id="lastPeriodUpdate" class="last-update"></div>
         </div>
 
         <div class="analysis-summary">
@@ -89,6 +83,7 @@
     <script src="/js/tradingView.js"></script>
     <script src="/js/analysis.js"></script>
     <script src="/js/timePatterns.js"></script>
+    <script src="/js/periodPatterns.js"></script>
     
     <!-- 初始化应用 -->
     <script>
@@ -96,11 +91,13 @@
         const tradingViewManager = new TradingViewManager();
         const marketAnalysis = new MarketAnalysis();
         const timePatternAnalysis = new TimePatternAnalysis();
+        const periodPatternAnalysis = new PeriodPatternAnalysis();
         
         // 创建符号管理器并设置回调
         const symbolManager = new SymbolManager(tradingViewManager, (symbol) => {
             marketAnalysis.startAutoUpdate(symbol);
             timePatternAnalysis.startAutoUpdate(symbol);
+            periodPatternAnalysis.startAutoUpdate(symbol);
         });
 
         // 初始化
@@ -109,12 +106,14 @@
             tradingViewManager.createWidget(initialSymbol);
             marketAnalysis.startAutoUpdate(initialSymbol);
             timePatternAnalysis.startAutoUpdate(initialSymbol);
+            periodPatternAnalysis.startAutoUpdate(initialSymbol);
         });
 
         // 清理
         window.addEventListener('beforeunload', () => {
             marketAnalysis.stopAutoUpdate();
             timePatternAnalysis.stopAutoUpdate();
+            periodPatternAnalysis.stopAutoUpdate();
         });
     </script>
 </body>

@@ -11,8 +11,8 @@ body {
     margin: 0 auto;
 }
 
-/* 时间模式分析样式 */
-.time-pattern-analysis {
+/* 周期模式分析样式 */
+.period-pattern-analysis {
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -20,63 +20,40 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.pattern-summary {
+.period-charts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.summary-item {
+.chart-wrapper {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.metadata-container {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
-    border-left: 4px solid #1e88e5;
+    margin-bottom: 20px;
 }
 
-.summary-item h4 {
-    margin: 0 0 10px 0;
-    color: #1e88e5;
+.metadata-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
 }
 
-.summary-item p {
-    margin: 5px 0;
-    color: #333;
+.metadata-item span:first-child {
+    color: #666;
 }
 
-.pattern-table {
-    margin-top: 20px;
-    overflow-x: auto;
-}
-
-.pattern-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.pattern-table th,
-.pattern-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.pattern-table th {
-    background: #f8f9fa;
+.metadata-item span:last-child {
     font-weight: bold;
     color: #333;
-}
-
-.pattern-table tr:hover {
-    background: #f8f9fa;
-}
-
-.last-update {
-    text-align: right;
-    color: #666;
-    font-size: 0.9em;
-    margin-top: 10px;
 }
 
 /* 原有样式继续保持 */
@@ -224,7 +201,7 @@ body {
     background: #1976d2;
 }
 
-#lastUpdate {
+#lastUpdate, #lastPeriodUpdate {
     text-align: right;
     color: #666;
     font-size: 0.9em;
@@ -265,4 +242,10 @@ body {
     font-size: 0.9em;
     flex-grow: 1;
     margin: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .period-charts {
+        grid-template-columns: 1fr;
+    }
 }
