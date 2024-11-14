@@ -3,7 +3,7 @@ const path = require('path');
 const analysisRoutes = require('./src/routes/analysisRoutes');
 
 const app = express();
-const port = 3000;
+const port = 7777;
 
 // 静态文件服务
 app.use(express.static(path.join(__dirname, 'public')));
