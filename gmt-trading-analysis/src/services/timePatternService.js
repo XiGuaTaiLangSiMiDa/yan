@@ -129,7 +129,7 @@ class TimePatternService {
             console.log('Starting time pattern analysis for', symbol);
             
             // 获取小时K线数据
-            const klines = await this.getHistoricalKlines(symbol, '1h', 4380);
+            const klines = await this.getHistoricalKlines(symbol, '1h', 10000);
             
             if (!klines || !Array.isArray(klines) || klines.length === 0) {
                 throw new Error('Failed to fetch historical klines data');

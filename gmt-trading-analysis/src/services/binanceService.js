@@ -78,14 +78,14 @@ class BinanceService {
     async getMarketAnalysis(symbol) {
         try {
             // 获取K线数据
-            const klines = await this.binance.futuresCandles(symbol, '4h', { limit: 200 });
+            const klines = await this.binance.futuresCandles(symbol, '4h', { limit: 1000 });
             
             // 获取当前价格
             const ticker = await this.binance.futuresPrices();
             const currentPrice = parseFloat(ticker[symbol]);
             
             // 获取深度订单簿数据
-            const depth = await this.binance.futuresDepth(symbol, { limit: 500 });
+            const depth = await this.binance.futuresDepth(symbol, { limit: 1000 });
             
             // 分析订单簿深度
             const orderBookLevels = this.analyzeOrderBookLevels(depth, currentPrice);
