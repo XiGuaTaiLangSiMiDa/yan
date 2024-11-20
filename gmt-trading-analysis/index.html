@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,20 +12,23 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .symbol-selector {
             background: white;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
+
         .symbol-btn {
             padding: 8px 16px;
             border: none;
@@ -33,97 +37,118 @@
             font-size: 14px;
             transition: all 0.3s;
         }
+
         .symbol-btn.active {
             background: #1e88e5;
             color: white;
         }
+
         .symbol-btn:not(.active) {
             background: #e0e0e0;
             color: #333;
         }
+
         .symbol-btn:hover:not(.active) {
             background: #bdbdbd;
         }
+
         .chart-container {
             background: white;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .analysis-summary {
             background: #e8f5e9;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .analysis-summary h3 {
             margin-top: 0;
             color: #2e7d32;
         }
+
         .price-levels {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
+
         .level-box {
             background: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .level-box h3 {
             margin-top: 0;
             color: #333;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
+
         .level-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
             border-bottom: 1px solid #eee;
         }
+
         .level-item:last-child {
             border-bottom: none;
         }
+
         .support {
             color: #28a745;
         }
+
         .resistance {
             color: #dc3545;
         }
+
         .volume-bar {
             height: 4px;
             background: #e0e0e0;
             margin-top: 5px;
             border-radius: 2px;
         }
+
         .volume-bar-fill {
             height: 100%;
             border-radius: 2px;
         }
+
         .support .volume-bar-fill {
             background: #28a745;
         }
+
         .resistance .volume-bar-fill {
             background: #dc3545;
         }
+
         #lastUpdate {
             text-align: right;
             color: #666;
             font-size: 0.9em;
             margin-top: 20px;
         }
+
         .analysis-text {
             line-height: 1.6;
             margin-bottom: 15px;
         }
+
         .key-level {
             font-weight: bold;
         }
+
         .trend-analysis {
             margin-top: 15px;
             padding: 15px;
@@ -132,6 +157,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="symbol-selector" id="symbolSelector">
@@ -196,8 +222,25 @@
                 "allow_symbol_change": false,
                 "container_id": "tradingview_chart",
                 "studies": [
-                    "RSI@tv-basicstudies"
-                ]
+                    {
+                        "id": "BB@tv-basicstudies",
+                        "inputs": {
+                            "length": 20,
+                            "stdDev": 2
+                        }
+                    }
+                ],
+                "studies_overrides": {
+                    "bollinger bands.median.color": "#606060",
+                    "bollinger bands.upper.color": "#26a69a",
+                    "bollinger bands.lower.color": "#ef5350",
+                    "bollinger bands.median.linewidth": 2,
+                    "bollinger bands.upper.linewidth": 2,
+                    "bollinger bands.lower.linewidth": 2,
+                    "bollinger bands.median.linestyle": 0,
+                    "bollinger bands.upper.linestyle": 2,
+                    "bollinger bands.lower.linestyle": 2
+                },
             });
         }
 
@@ -210,11 +253,11 @@
             const currentPrice = data.currentPrice;
             const supports = data.orderBookLevels.filter(l => l.type === 'support').slice(0, 3);
             const resistances = data.orderBookLevels.filter(l => l.type === 'resistance').slice(0, 3);
-            
+
             let summary = `<div class="analysis-text">`;
             summary += `<p>当前价格: <span class="key-level">${currentPrice}</span></p>`;
             summary += `<p>RSI(14): <span class="key-level">${rsi.toFixed(2)}</span>`;
-            
+
             if (rsi > 70) {
                 summary += ` - 超买区间，可能面临回调风险</p>`;
             } else if (rsi < 30) {
@@ -231,11 +274,11 @@
             let trendAnalysis = `<p><strong>趋势分析：</strong></p>`;
             const nearestSupport = supports[0];
             const nearestResistance = resistances[0];
-            
+
             if (nearestSupport && nearestResistance) {
                 const distanceToSupport = currentPrice - nearestSupport.price;
                 const distanceToResistance = nearestResistance.price - currentPrice;
-                
+
                 if (distanceToSupport < distanceToResistance) {
                     trendAnalysis += `当前价格距离支撑位 ${nearestSupport.price} 较近，可能获得支撑。`;
                     if (rsi < 40) {
@@ -259,7 +302,7 @@
                 .filter(level => level.type === 'support')
                 .slice(0, 5);
             const maxSupportVolume = Math.max(...supportLevels.map(l => l.volume));
-            
+
             document.getElementById('supportLevels').innerHTML = supportLevels
                 .map(level => `
                     <div class="level-item support">
@@ -276,7 +319,7 @@
                 .filter(level => level.type === 'resistance')
                 .slice(0, 5);
             const maxResistanceVolume = Math.max(...resistanceLevels.map(l => l.volume));
-            
+
             document.getElementById('resistanceLevels').innerHTML = resistanceLevels
                 .map(level => `
                     <div class="level-item resistance">
@@ -291,7 +334,7 @@
             // 更新历史水平
             const historicalLevels = data.historicalLevels;
             const maxHistVolume = Math.max(...historicalLevels.map(l => l.volume));
-            
+
             document.getElementById('historicalLevels').innerHTML = historicalLevels
                 .map(level => `
                     <div class="level-item ${level.type}">
@@ -304,7 +347,7 @@
                 `).join('');
 
             // 更新时间戳
-            document.getElementById('lastUpdate').textContent = 
+            document.getElementById('lastUpdate').textContent =
                 `最后更新时间: ${new Date().toLocaleString('zh-CN')}`;
         }
 
@@ -343,4 +386,5 @@
         setInterval(fetchAndUpdateData, 60000);
     </script>
 </body>
+
 </html>

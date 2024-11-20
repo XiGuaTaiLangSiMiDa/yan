@@ -24,8 +24,25 @@ class TradingViewManager {
             "allow_symbol_change": false,
             "container_id": "tradingview_chart",
             "studies": [
-                "RSI@tv-basicstudies"
-            ]
+                {
+                    "id": "BB@tv-basicstudies",
+                    "inputs": {
+                        "length": 20,
+                        "stdDev": 2
+                    }
+                }
+            ],
+            "studies_overrides": {
+                "bollinger bands.median.color": "#606060",
+                "bollinger bands.upper.color": "#26a69a",
+                "bollinger bands.lower.color": "#ef5350",
+                "bollinger bands.median.linewidth": 2,
+                "bollinger bands.upper.linewidth": 2,
+                "bollinger bands.lower.linewidth": 2,
+                "bollinger bands.median.linestyle": 0,
+                "bollinger bands.upper.linestyle": 2,
+                "bollinger bands.lower.linestyle": 2
+            },
         });
 
         this.currentSymbol = symbol;
@@ -67,7 +84,7 @@ class SymbolManager {
     addCustomSymbol() {
         const input = document.getElementById('customSymbol');
         const symbol = input.value.toUpperCase();
-        
+
         if (!symbol.endsWith('USDT')) {
             alert('请输入有效的USDT交易对');
             return;
@@ -86,7 +103,7 @@ class SymbolManager {
         btn.className = 'symbol-btn';
         btn.setAttribute('data-symbol', symbol);
         btn.textContent = `${symbol.replace('USDT', '')}/USDT`;
-        
+
         // 插入到输入框之前
         const inputContainer = document.querySelector('.custom-symbol-input');
         inputContainer.parentNode.insertBefore(btn, inputContainer);
