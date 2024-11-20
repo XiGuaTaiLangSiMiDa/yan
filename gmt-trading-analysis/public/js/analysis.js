@@ -161,7 +161,7 @@ class MarketAnalysis {
             clearInterval(this.updateInterval);
         }
         this.fetchAndUpdateData(symbol);
-        this.updateInterval = setInterval(() => this.fetchAndUpdateData(symbol), 60000);
+        this.updateInterval = setInterval(() => this.fetchAndUpdateData(symbol), 20000);
     }
 
     stopAutoUpdate() {

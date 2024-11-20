@@ -286,7 +286,7 @@ class TimePatternAnalysis {
             clearInterval(this.updateInterval);
         }
         this.fetchAndUpdatePatterns(symbol);
-        this.updateInterval = setInterval(() => this.fetchAndUpdatePatterns(symbol), 3600000);
+        this.updateInterval = setInterval(() => this.fetchAndUpdatePatterns(symbol), 20000);
     }
 
     stopAutoUpdate() {

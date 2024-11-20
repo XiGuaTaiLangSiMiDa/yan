@@ -318,7 +318,7 @@ class PeriodPatternAnalysis {
         }
         this.fetchAndUpdatePatterns(symbol);
         // 每天更新一次周期模式分析
-        this.updateInterval = setInterval(() => this.fetchAndUpdatePatterns(symbol), 86400000);
+        this.updateInterval = setInterval(() => this.fetchAndUpdatePatterns(symbol), 20000);
     }
 
     stopAutoUpdate() {
