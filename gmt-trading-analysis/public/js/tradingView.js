@@ -30,6 +30,17 @@ class TradingViewManager {
                         "length": 20,
                         "stdDev": 2
                     }
+                },
+                {
+                    "id": "StochRSI@tv-basicstudies",
+                    "inputs": {
+                        "length": 15,
+                        "smoothK": 3,
+                        "smoothD": 3
+                    }
+                },
+                {
+                    "id": "OBV@tv-basicstudies"
                 }
             ],
             "studies_overrides": {
@@ -41,7 +52,13 @@ class TradingViewManager {
                 "bollinger bands.lower.linewidth": 2,
                 "bollinger bands.median.linestyle": 0,
                 "bollinger bands.upper.linestyle": 2,
-                "bollinger bands.lower.linestyle": 2
+                "bollinger bands.lower.linestyle": 2,
+                "Stoch RSI.K.color": "#2196F3",
+                "Stoch RSI.D.color": "#FF5252",
+                "Stoch RSI.K.linewidth": 2,
+                "Stoch RSI.D.linewidth": 2,
+                "Volume On Balance.color": "#7E57C2",
+                "Volume On Balance.linewidth": 2
             },
         });
 
