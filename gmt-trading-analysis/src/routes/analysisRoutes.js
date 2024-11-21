@@ -4,6 +4,23 @@ const binanceService = require('../services/binanceService');
 const timePatternService = require('../services/timePatternService');
 const periodPatternService = require('../services/periodPatternService');
 
+router.get('/initializeCache', async (req, res) => {
+    try {
+        const symbol = `${req.query.symbol || 'GMT'}USDT`;
+        const patterns = await timePatternService.getTimePatternAnalysis(symbol);
+        const periodpatterns = await periodPatternService.getPeriodPatternAnalysis(symbol);
+        const analysis = await binanceService.getMarketAnalysis(symbol);
+        res.json({ patterns, analysis, periodpatterns });
+    } catch (error) {
+        console.error('Analysis route error:', error);
+        res.status(500).json({
+            error: 'Analysis failed',
+            message: error.message,
+            details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+})
+
 // GET /api/analysis
 router.get('/analysis', async (req, res) => {
     try {
@@ -12,7 +29,7 @@ router.get('/analysis', async (req, res) => {
         res.json(analysis);
     } catch (error) {
         console.error('Analysis route error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Analysis failed',
             message: error.message,
             details: process.env.NODE_ENV === 'development' ? error.stack : undefined
@@ -25,18 +42,18 @@ router.get('/time-patterns', async (req, res) => {
     try {
         const symbol = req.query.symbol || 'GMTUSDT';
         console.log(`Processing time patterns request for symbol: ${symbol}`);
-        
+
         const patterns = await timePatternService.getTimePatternAnalysis(symbol);
-        
+
         if (!patterns || !patterns.hourlyPatterns) {
             throw new Error('Invalid pattern analysis result');
         }
-        
+
         console.log(`Successfully analyzed time patterns for ${symbol}`);
         res.json(patterns);
     } catch (error) {
         console.error('Time pattern analysis error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Time pattern analysis failed',
             message: error.message,
             symbol: req.query.symbol || 'GMTUSDT',
@@ -53,18 +70,18 @@ router.get('/period-patterns', async (req, res) => {
     try {
         const symbol = req.query.symbol || 'GMTUSDT';
         console.log(`Processing period patterns request for symbol: ${symbol}`);
-        
+
         const patterns = await periodPatternService.getPeriodPatternAnalysis(symbol);
-        
+
         if (!patterns || !patterns.weekdayPatterns) {
             throw new Error('Invalid period pattern analysis result');
         }
-        
+
         console.log(`Successfully analyzed period patterns for ${symbol}`);
         res.json(patterns);
     } catch (error) {
         console.error('Period pattern analysis error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Period pattern analysis failed',
             message: error.message,
             symbol: req.query.symbol || 'GMTUSDT',
@@ -81,8 +98,8 @@ router.get('/symbols/validate', async (req, res) => {
     try {
         const symbol = req.query.symbol;
         if (!symbol) {
-            return res.status(400).json({ 
-                valid: false, 
+            return res.status(400).json({
+                valid: false,
                 message: 'Symbol is required',
                 details: 'Please provide a trading pair symbol (e.g., BTCUSDT)'
             });
@@ -99,7 +116,7 @@ router.get('/symbols/validate', async (req, res) => {
         });
     } catch (error) {
         console.error('Symbol validation error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Validation failed',
             message: error.message,
             symbol: req.query.symbol,

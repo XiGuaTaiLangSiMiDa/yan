@@ -1,4 +1,5 @@
 const Binance = require('node-binance-api');
+const { klineCache } = require('../cache/cache');
 const binance = new Binance();
 
 class PeriodPatternService {
@@ -49,9 +50,10 @@ class PeriodPatternService {
 
         klines.forEach(kline => {
             try {
-                const timestamp = parseInt(kline[0]);
-                const open = parseFloat(kline[1]);
-                const close = parseFloat(kline[4]);
+                const { openTime: timestamp, open, high, low, close, volume } = kline;
+                // const timestamp = parseInt(kline[0]);
+                // const open = parseFloat(kline[1]);
+                // const close = parseFloat(kline[4]);
                 
                 if (isNaN(timestamp) || isNaN(open) || isNaN(close)) return;
 
@@ -99,9 +101,10 @@ class PeriodPatternService {
 
         klines.forEach(kline => {
             try {
-                const timestamp = parseInt(kline[0]);
-                const open = parseFloat(kline[1]);
-                const close = parseFloat(kline[4]);
+                const { openTime: timestamp, open, high, low, close, volume } = kline;
+                //const timestamp = parseInt(kline[0]);
+                //const open = parseFloat(kline[1]);
+                //const close = parseFloat(kline[4]);
                 
                 if (isNaN(timestamp) || isNaN(open) || isNaN(close)) return;
 
@@ -148,9 +151,10 @@ class PeriodPatternService {
 
         klines.forEach(kline => {
             try {
-                const timestamp = parseInt(kline[0]);
-                const open = parseFloat(kline[1]);
-                const close = parseFloat(kline[4]);
+                const { openTime: timestamp, open, high, low, close, volume } = kline;
+                //const timestamp = parseInt(kline[0]);
+                //const open = parseFloat(kline[1]);
+                //const close = parseFloat(kline[4]);
                 
                 if (isNaN(timestamp) || isNaN(open) || isNaN(close)) return;
 
@@ -200,9 +204,10 @@ class PeriodPatternService {
 
         klines.forEach(kline => {
             try {
-                const timestamp = parseInt(kline[0]);
-                const open = parseFloat(kline[1]);
-                const close = parseFloat(kline[4]);
+                const { openTime: timestamp, open, high, low, close, volume } = kline;
+                //const timestamp = parseInt(kline[0]);
+                //const open = parseFloat(kline[1]);
+                //const close = parseFloat(kline[4]);
                 
                 if (isNaN(timestamp) || isNaN(open) || isNaN(close)) return;
 
@@ -254,7 +259,8 @@ class PeriodPatternService {
             console.log('Starting period pattern analysis for', symbol);
             
             // 获取一年的日线数据
-            const klines = await this.getHistoricalKlines(symbol, '1d', 365);
+            // const klines = await this.getHistoricalKlines(symbol, '1d', 365);
+            const klines = await klineCache.update(symbol, "1d");
             
             if (!klines || !Array.isArray(klines) || klines.length === 0) {
                 throw new Error('Failed to fetch historical klines data');
@@ -270,8 +276,8 @@ class PeriodPatternService {
                 metadata: {
                     symbol,
                     dataPoints: klines.length,
-                    startDate: new Date(parseInt(klines[0][0])).toISOString(),
-                    endDate: new Date(parseInt(klines[klines.length - 1][0])).toISOString()
+                    startDate: new Date(parseInt(klines[0].openTime)).toISOString(),
+                    endDate: new Date(parseInt(klines[klines.length - 1].openTime)).toISOString()
                 }
             };
         } catch (error) {
