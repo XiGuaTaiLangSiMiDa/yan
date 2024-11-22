@@ -3,8 +3,24 @@ const router = express.Router();
 const binanceService = require('../services/binanceService');
 const timePatternService = require('../services/timePatternService');
 const periodPatternService = require('../services/periodPatternService');
+const { predictdun } = require('../../reversal/examples/predict');
 
-router.get('/initializeCache', async (req, res) => {
+router.get("/dun", async (req, res) => {
+    try {
+        const symbol = req.query.symbol || 'GMT';
+        const result = await predictdun(symbol);
+        res.json(result);
+    } catch (e) {
+        res.status(500).json({
+            error: 'Dun failed',
+            message: error.message,
+            details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+
+});
+
+router.get('/cache', async (req, res) => {
     try {
         const symbol = `${req.query.symbol || 'GMT'}USDT`;
         const patterns = await timePatternService.getTimePatternAnalysis(symbol);
