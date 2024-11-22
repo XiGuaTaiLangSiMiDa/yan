@@ -1,4 +1,6 @@
 const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
+const path = require('path');
 
 class ReversalModel {
     constructor(config = {}) {
@@ -33,7 +35,7 @@ class ReversalModel {
         const labelCounts = {0: 0, 1: 0, 2: 0};
         const labelValues = labels.arraySync();
         labelValues.forEach(label => {
-            labelCounts[label] = (labelCounts[label] || 0) + 1;
+            labelCounts[Math.floor(label)] = (labelCounts[Math.floor(label)] || 0) + 1;
         });
 
         const totalSamples = labelValues.length;
@@ -209,25 +211,55 @@ class ReversalModel {
     }
 
     /**
-     * Save model to file
-     * @param {string} path - Path to save model
+     * Ensure directory exists and is empty
+     * @param {string} dirPath - Directory path
      */
-    async saveModel(path) {
+    ensureEmptyDirectory(dirPath) {
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        } else {
+            // Clear existing files
+            const files = fs.readdirSync(dirPath);
+            for (const file of files) {
+                fs.unlinkSync(path.join(dirPath, file));
+            }
+        }
+    }
+
+    /**
+     * Save model to file
+     * @param {string} savePath - Path to save model
+     */
+    async saveModel(savePath) {
         if (!this.model) {
             throw new Error('No model to save');
         }
-        // Ensure path ends with model.json
-        const modelPath = path.endsWith('model.json') ? path : `${path}/model.json`;
-        await this.model.save(`file://${modelPath}`);
+
+        // Get directory path
+        const dirPath = path.dirname(savePath);
+        
+        // Ensure directory exists and is empty
+        this.ensureEmptyDirectory(dirPath);
+
+        // Save the model
+        await this.model.save(`file://${dirPath}`);
+        console.log('Model saved to:', dirPath);
     }
 
     /**
      * Load model from file
-     * @param {string} path - Path to load model from
+     * @param {string} loadPath - Path to load model from
      */
-    async loadModel(path) {
-        // Ensure path ends with model.json
-        const modelPath = path.endsWith('model.json') ? path : `${path}/model.json`;
+    async loadModel(loadPath) {
+        // Get directory path
+        const dirPath = path.dirname(loadPath);
+        const modelPath = path.join(dirPath, 'model.json');
+
+        if (!fs.existsSync(modelPath)) {
+            throw new Error(`Model file not found at: ${modelPath}`);
+        }
+
         this.model = await tf.loadLayersModel(`file://${modelPath}`);
         
         // Recompile the model
@@ -237,6 +269,8 @@ class ReversalModel {
             loss: 'sparseCategoricalCrossentropy',
             metrics: ['accuracy']
         });
+
+        console.log('Model loaded from:', modelPath);
     }
 
     /**
